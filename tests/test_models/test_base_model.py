@@ -19,10 +19,10 @@ class TestBaseModel(unittest.TestCase):
     def test_uniq_id(self):
         self.assertNotEqual(self.new_model.id, self.base_model.id)
 
-    def test_updated_at_on_save():
+    def test_updated_at_on_save(self):
         prev_time = self.base_model.updated_at
         self.base_model.save()
-        self.assertLess(prev_time, self.base_model.upadted_at)
+        self.assertLess(prev_time, self.base_model.updated_at)
 
     def test_time_diff_in_created_at(self):
         self.assertLess(
@@ -31,3 +31,7 @@ class TestBaseModel(unittest.TestCase):
     def test_time_diff_in_updated_at(self):
         self.assertLess(
                 self.base_model.updated_at, self.new_model.updated_at)
+
+
+if __name__ == "__main__":
+    unittest.main()
