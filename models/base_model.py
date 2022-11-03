@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from uuid import uuid4
 from datetime import datetime
-import models
+from models import storage
 
 """AirBnB_clone base module"""
 
@@ -28,7 +28,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            models.storage.new(self)
+            storage.new(self)
 
     def __str__(self):
         """
@@ -43,7 +43,7 @@ class BaseModel:
         """
 
         self.updated_at = datetime.now()
-        models.storage.save()
+        storage.save()
 
     def to_dict(self):
         """Returns dictionary representation of an instance."""
