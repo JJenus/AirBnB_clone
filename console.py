@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """AirBnB console"""
+
 import cmd
 from models.base_model import BaseModel
 from models import storage
@@ -8,10 +9,12 @@ def parse(arg):
     """Make argument a readable list """
     return arg.split()
 
+
 class HBNBCommand(cmd.Cmd):
     """AirBnB command line interpreter"""
     prompt = "(hbnb) "
-    __classes = ["BaseModel"]
+    __classes = ["BaseModel", "User", "State",
+            "City", "Amenity", "Place"]
 
     def is_valid_command(self, command, action="create"):
         if len(command) < 1 and action != "all":
