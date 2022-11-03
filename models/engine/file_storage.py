@@ -2,7 +2,8 @@
 """Defines the FileStorage class."""
 import json
 from models.base_model import BaseModel
-from models.user.py import User
+from models.user import User
+from models.state import State
 
 
 class FileStorage:
