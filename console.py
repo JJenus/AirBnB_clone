@@ -2,10 +2,16 @@
 """AirBnB console"""
 
 import cmd
+import re
+
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
 from models.state import State
+from models.city import City
+from models.review import Review
+from models.place import Place
+from models.amenity import Amenity
 
 
 def parse(arg):
@@ -42,6 +48,26 @@ class HBNBCommand(cmd.Cmd):
                 return False
 
         return True
+
+    def default(self, line):
+        args = line.split(".")
+        if len(args) < 1:
+            print("** invalid command **")
+            return None
+        _class = args[0]
+        _action = args[1].split("(")[0]
+        if _action == "all":
+            self.do_all(_class)
+        elif _action == "count" and self.is_valid_command(args, "all"):
+            objs = [str(obj) for key, obj in storage.all().items()
+                    if type(obj) is eval(args[0])]
+            print(len(objs))
+        elif _action == "show":
+            _id = re.search('"(.*?)"', args[1]).group(1)
+            self.do_show(f"{_class} {_id}")
+        elif _action == "destroy":
+            _id = re.search('"(.*?)"', args[1]).group(1)
+            self.do_destroy(f"{_class} {_id}")
 
     def do_create(self, arg):
         """Create creates and save a new instance"""
