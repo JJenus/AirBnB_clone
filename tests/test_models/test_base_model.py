@@ -12,6 +12,8 @@ class TestBaseModel(unittest.TestCase):
     """
 
     def setUp(self):
+        """Set up unittest model """
+
         self.base_model = BaseModel()
         sleep(0.05)
         self.new_model = BaseModel()
@@ -20,15 +22,21 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(self.new_model.id, self.base_model.id)
 
     def test_updated_at_on_save(self):
+        """Test time on update"""
+
         prev_time = self.base_model.updated_at
         self.base_model.save()
         self.assertLess(prev_time, self.base_model.updated_at)
 
     def test_time_diff_in_created_at(self):
+        """Test correctness of time of creation"""
+
         self.assertLess(
                 self.base_model.created_at, self.new_model.created_at)
 
     def test_time_diff_in_updated_at(self):
+        """Test successful update"""
+
         self.assertLess(
                 self.base_model.updated_at, self.new_model.updated_at)
 
