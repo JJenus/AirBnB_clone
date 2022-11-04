@@ -4,6 +4,9 @@
 import cmd
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
+from models.state import State
+
 
 def parse(arg):
     """Make argument a readable list """
@@ -13,8 +16,8 @@ def parse(arg):
 class HBNBCommand(cmd.Cmd):
     """AirBnB command line interpreter"""
     prompt = "(hbnb) "
-    __classes = ["BaseModel", "User", "State",
-            "City", "Amenity", "Place"]
+    __classes = [
+            "BaseModel", "User", "State", "City", "Amenity", "Place"]
 
     def is_valid_command(self, command, action="create"):
         if len(command) < 1 and action != "all":
@@ -64,7 +67,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Deletes an instance from storage"""
-        
+
         args = parse(arg)
         if self.is_valid_command(args, "destroy"):
             _id = f"{args[0]}.{args[1]}"
@@ -84,7 +87,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """Update a single attribute in object instance"""
-        
+
         args = parse(arg)
         if not self.is_valid_command(args, "update"):
             return
