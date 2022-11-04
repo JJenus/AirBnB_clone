@@ -17,7 +17,7 @@ class HBNBCommand(cmd.Cmd):
     """AirBnB command line interpreter"""
     prompt = "(hbnb) "
     __classes = [
-            "BaseModel", "User", "State", "City", "Amenity", "Place"]
+            "BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
 
     def is_valid_command(self, command, action="create"):
         if len(command) < 1 and action != "all":
