@@ -31,14 +31,13 @@ class BaseModel:
             models.storage.new(self)
 
     def __str__(self):
-        """
-        String representation of BaseModel
+        """String representation of BaseModel
         """
 
         return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
-        """Keeps track of updated time
+        """Save instance to storage and keeps track of updated time
         updates updated_at to current time
         """
 

@@ -43,6 +43,21 @@ class HBNBCommand(cmd.Cmd):
 
         return True
 
+    def default(self, line):
+        args = arg.split(".")
+        if len(args) < 1:
+            print("** invalid command **")
+            return None
+        _class = args[0]
+        _action = args[1].split("(")[0]
+        if _action == "all":
+            self.do_all(_class)
+        elif _action == "count" and self.is_valid_command(args, "all"):
+            objs = [str(obj) for key, obj in storage.all().items()
+                    if type(obj) is eval(args[0])]
+            print(len(objs))
+
+
     def do_create(self, arg):
         """Create creates and save a new instance"""
 

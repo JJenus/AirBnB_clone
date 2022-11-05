@@ -12,6 +12,14 @@ class TestFileStorage(unittest.TestCase):
     def setUp(self):
         self.storage = FileStorage()
 
+    def test_objects(self):
+        val = not (not self.storage.all())
+        self.assertTrue(val)
+
+    def test_file_path(self):
+        val = not self.storage.reload()
+        self.assertTrue(val)
+
     def test_all(self):
         self.assertIsInstance(self.storage.all(), dict)
 
