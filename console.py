@@ -2,15 +2,21 @@
 """AirBnB console"""
 
 import cmd
+import re
+
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
 from models.state import State
+from models.city import City
+from models.review import Review
+from models.place import Place
+from models.amenity import Amenity
 
 
 def parse(arg):
     """Make argument a readable list """
-    return arg.split()
+    return [com.strip() for com in arg.split()]
 
 
 class HBNBCommand(cmd.Cmd):
@@ -44,19 +50,44 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def default(self, line):
-        args = arg.split(".")
+        args = line.split(".")
         if len(args) < 1:
             print("** invalid command **")
             return None
+
         _class = args[0]
         _action = args[1].split("(")[0]
+
         if _action == "all":
             self.do_all(_class)
         elif _action == "count" and self.is_valid_command(args, "all"):
             objs = [str(obj) for key, obj in storage.all().items()
                     if type(obj) is eval(args[0])]
             print(len(objs))
-
+        elif _action == "show":
+            _id = re.search('"(.*?)"', args[1]).group(1)
+            self.do_show(f"{_class} {_id}")
+        elif _action == "destroy":
+            _id = re.search('"(.*?)"', args[1]).group(1)
+            self.do_destroy(f"{_class} {_id}")
+        elif _action == "update":
+            arg_list = re.search("\((.*?)\)",
+                    args[1]).group(1).split(",")
+            if len(arg_list) > 2:
+                raw_id = arg_list[0].replace('"', "").strip()
+                attr = arg_list[1].replace('"', "").strip()
+                val = arg_list[2].replace('"', "").strip()
+                command = f"{_class} {raw_id} {attr} {val}"
+            elif len(arg_list) > 1:
+                raw_id = arg_list[0].replace('"', "").strip()
+                _dict = eval(arg_list[1].strip())
+                for attr, val in _dict.items():
+                    command = f"{_class} {raw_id} {attr} {val}"
+                    self.do_update(command)
+                return None
+            else:
+                command = _class
+            self.do_update(command)
 
     def do_create(self, arg):
         """Create creates and save a new instance"""
